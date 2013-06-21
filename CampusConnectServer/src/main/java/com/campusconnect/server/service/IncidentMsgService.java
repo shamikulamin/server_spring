@@ -8,9 +8,12 @@ public interface IncidentMsgService {
 	// Find all CommunityMsgs
 		public List<IncidentMsg> getAll();
 		
-		// Find a IncidentMsg by id
+		// Find an IncidentMsg by id
 		public IncidentMsg getById(Long id);
 		
-		// Insert or update a IncidentMsg
+		// Insert or update an IncidentMsg
 		public IncidentMsg save(IncidentMsg msg);
+		
+		// Delete an IncidentMsg
+		public void delete(IncidentMsg msg);
 }

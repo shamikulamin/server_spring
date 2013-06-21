@@ -1,5 +1,6 @@
 package com.campusconnect.server.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +30,16 @@ public class IncidentMsg  implements java.io.Serializable {
 	private String latlong;
 	private Set<IncidentPicture> incidentPictures = new HashSet<IncidentPicture>(0);
 	//private int noOfImages;
+	
+	public IncidentMsg() {}
+
+	public IncidentMsg(String msg_title, String msg_description, Timestamp timestamp, String latLong2, Set<IncidentPicture> iPics) {
+		this.msgTitle = msgTitle;
+		this.msgDescription = msgDescription;
+		this.reportingTime = reportingTime;
+		this.latlong = latlong;
+		this.incidentPictures = incidentPictures;
+	}
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "incident_id")	// Note Spring only needs this annotation if the member name isn't the same as column in database

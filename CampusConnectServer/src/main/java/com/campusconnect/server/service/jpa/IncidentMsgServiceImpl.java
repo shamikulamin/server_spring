@@ -43,4 +43,10 @@ public class IncidentMsgServiceImpl implements IncidentMsgService {
 		}
 		return msg;
 	}
+	
+	@Override
+	public void delete(IncidentMsg msg) {
+		IncidentMsg mergedMsg = em.merge(msg);
+		em.remove(msg);
+	}
 }

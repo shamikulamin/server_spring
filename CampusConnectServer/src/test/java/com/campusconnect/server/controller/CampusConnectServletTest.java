@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.campusconnect.server.controller.helper.CommunityMsgHelper;
 import com.campusconnect.server.domain.CommunityMsg;
-import com.campusconnect.server.domain.helper.CommunityMsgHelper;
 import com.campusconnect.server.service.CommunityMsgService;
 
 public class CampusConnectServletTest extends AbstractControllerTest {
@@ -47,7 +47,7 @@ public class CampusConnectServletTest extends AbstractControllerTest {
 		CommunityMsgHelper msgHelper = new CommunityMsgHelper();
 		ReflectionTestUtils.setField(msgHelper, "commServ", commServ);
 		
-		JSONArray result = msgHelper.getCommunityMsg();
+		JSONArray result = msgHelper.getCommunityMsgJSON();
 
 		assertNotNull(result);
 		assertEquals(1, result.length());

@@ -1,4 +1,4 @@
-package com.campusconnect.server.domain.helper;
+package com.campusconnect.server.controller.helper;
 
 import java.util.List;
 
@@ -62,7 +62,12 @@ public class CommunityMsgHelper {
 		return commServ.getById(id).toString();
 	}
 	
-	public JSONArray getCommunityMsg()
+	public List<CommunityMsg> getCommunityMessages() 
+	{
+		return commServ.getAll();
+	}
+	
+	public JSONArray getCommunityMsgJSON()
 	{
 		JSONArray vReturnObjects = new JSONArray();
 		List<CommunityMsg> message = commServ.getAllValid();
