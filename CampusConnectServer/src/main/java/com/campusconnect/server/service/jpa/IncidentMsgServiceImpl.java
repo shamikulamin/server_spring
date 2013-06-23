@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.campusconnect.server.domain.Device;
 import com.campusconnect.server.domain.IncidentMsg;
 import com.campusconnect.server.service.IncidentMsgService;
 
@@ -30,7 +29,7 @@ public class IncidentMsgServiceImpl implements IncidentMsgService {
 	@Override
 	public IncidentMsg getById(Long id) {
 		TypedQuery<IncidentMsg> query = em.createNamedQuery("IncidentMsg.getById", IncidentMsg.class);
-		query.setParameter("id", id);
+		query.setParameter("id", id.intValue());
 		return query.getSingleResult();
 	}
 

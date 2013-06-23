@@ -93,7 +93,7 @@
             rd.forward(request, response);
            
         } else { %>
-    <form action="PostMessageServlet" method=post name="msgForm" onsubmit="return check()">
+    <form action="postMessage" method=post name="msgForm" onsubmit="return check()">
         
         <table cellpadding=4 cellspacing=2 border=0>
             <th bgcolor="#b0c4de" colspan=2>

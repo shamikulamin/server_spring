@@ -1,11 +1,15 @@
 package com.campusconnect.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.campusconnect.server.domain.Device;
 
 public interface DeviceService {
-	// Find all contacts
+	// Find all Devices
 	public List<Device> getAll();
+	
+	// Find all Device ids
+	public List<String> getAllIds();
 	
 	// Find a device with details by id
 	// NOTE: Currently not being used

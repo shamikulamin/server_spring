@@ -20,18 +20,23 @@
             
             function show(latLongList){
                 //alert("inside show");
-                var locations = latLongList.split("|");
-                //alert("1");
-                var firstLatLong = locations[0].split(",");
-                // alert("2");
+                var myLatlng;
+                if( latLongList == "none" ) {
+                	myLatlng = new google.maps.LatLng(32.730500,-97.113047);
+                } else {
+                	var locations = latLongList.split("|");
+                	var firstLatLong = locations[0].split(",");
+                	myLatlng = new google.maps.LatLng(firstLatLong[0],firstLatLong[1]);
+                }
                 
-                var myLatlng = new google.maps.LatLng(firstLatLong[0],firstLatLong[1]);
+                
                 var myOptions = {
                     zoom: 16,
                     center: myLatlng,
                     mapTypeId: google.maps.MapTypeId.HYBRID
                 }
                 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                if( latLongList != "none" )
                 var marker = new google.maps.Marker({
                         position: myLatlng,
                         map: map

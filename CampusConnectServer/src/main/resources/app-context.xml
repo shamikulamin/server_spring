@@ -20,7 +20,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/campus_connect" />
+        <property name="url" value="jdbc:mysql://localhost:3306/campusconnect" />
         <property name="username" value="root" />
         <property name="password" value="crewman123" />
     </bean>

@@ -8,7 +8,8 @@
 <%@ page import="com.campusconnect.server.controller.helper.IncidentMsgHelper" %>
 <%@ page import="com.campusconnect.server.domain.IncidentPicture" %>
 <%@ page import="com.campusconnect.server.domain.IncidentMsg" %>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="incidentPictures" type="ArrayList<IncidentPicture>" scope="request" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,33 +40,15 @@
 	<h3>Images</h3>
         <ul class="gallery">
          <% 
-            String noOfImages = (String)request.getParameter("noOfPics");
-            
-            String incidentIdentifier = (String)request.getParameter("incidentId");
-           
-            int imageCount = Integer.parseInt(noOfImages);
-            int incidentId =  Integer.parseInt(incidentIdentifier);
-
-            IncidentMsgHelper msgHelper = new IncidentMsgHelper();
-            List<IncidentPicture> result = new ArrayList<IncidentPicture> (msgHelper.getIncidentById(new Long(incidentId)).getIncidentPictures());
-
             int i=0;
-            for(IncidentPicture aPic : result)
+            for(IncidentPicture aPic : incidentPictures)
             {
-                String regex = "C\\:|\\/[0-9]\\.jpg";
-                String strPic = aPic.getPicture();
-                String filePath = strPic.replaceAll(regex, "");
-            %>
-            <li><a href="<%=filePath%>/<%= i %>.jpg" title="PIC"><img
-                        src="<%=filePath%>/<%= i %>.jpg_thumb.jpg" title="PIC"/></a></li>
-            <!-- <li><a href="/incidentImages/<%= incidentId%>/<%= i %>.jpg" title="PIC"><img 
-                        src="/incidentImages/<%= incidentId%>/<%= i%>.jpg_thumb.jpg" title="PIC"/></a></li> -->
-            
-            
-            <%
+         %>
+           		<li><a href="<%=aPic.getPicture()%> title="PIC"><img src="<%=aPic.getPicture()%>.jpg_thumb.jpg" title="PIC"/></a></li>
+         <%
                 i++;
             }
-            %>
+         %>
         </ul>
         
         </div>

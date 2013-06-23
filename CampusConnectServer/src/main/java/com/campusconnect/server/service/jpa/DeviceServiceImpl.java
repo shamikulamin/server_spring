@@ -25,6 +25,11 @@ public class DeviceServiceImpl implements DeviceService {
 	public List<Device> getAll() {
 		return em.createQuery("from Device d").getResultList();
 	}
+	
+	@Transactional(readOnly=true)
+	public List<String> getAllIds() {
+		return em.createQuery("id from Device d").getResultList();
+	}
 
 	@Transactional(readOnly=true)
 	public Device getById(String id) {

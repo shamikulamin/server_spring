@@ -67,7 +67,7 @@
                 <td><%= incidentMsg.getMsgTitle() %></td>
                 <td><%= incidentMsg.getMsgDescription() %></td>
                 <td><a href="showLocationInMap?latLong=<%= incidentMsg.getLatlong() %>">Location</a></td>
-                <td><a href="showPics?noOfPics=<%= incidentMsg.getIncidentPictures().size() %>&incidentId=<%= incidentMsg.getIncidentId()%>">images</a></td>
+                <td><a href="showPics?&incidentId=<%= incidentMsg.getIncidentId()%>">images</a></td>
                 </tr>
                 <%}%>
             </tbody>

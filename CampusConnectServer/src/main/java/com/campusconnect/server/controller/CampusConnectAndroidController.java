@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
@@ -26,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.campusconnect.server.controller.helper.CommunityMsgHelper;
 import com.campusconnect.server.controller.helper.IncidentMsgHelper;
+import com.campusconnect.server.controller.helper.IncidentPictureHelper;
 import com.campusconnect.server.domain.IncidentMsg;
+import com.campusconnect.server.domain.IncidentPicture;
 
 @Controller
 @RequestMapping(value = "/campus_connect_servlet")
@@ -35,9 +39,11 @@ public class CampusConnectAndroidController {
 	@RequestMapping(value = "/sendReport", method = RequestMethod.POST)
 	@ResponseBody
 	public void sendReport(HttpServletRequest req, HttpServletResponse res) {
+		IncidentPictureHelper picHelper = new IncidentPictureHelper();
 		List<FileItem> items = null;
 		String latitude = "", longitude = "";
 	    ArrayList<String> imagePaths = new ArrayList<String>();
+	    Set<IncidentPicture> pictures = new HashSet<IncidentPicture>();
 	    IncidentMsg newMsg = new IncidentMsg();
 	    IncidentMsgHelper helper = new IncidentMsgHelper();
 	    
@@ -94,12 +100,17 @@ public class CampusConnectAndroidController {
 			    	if (item.getFieldName().equals("image"))
 					{
 			    		try {
+			    			IncidentPicture ip = new IncidentPicture();
 							String fileName = item.getName();
 							InputStream fileContent = item.getInputStream();
+							
+							ip.setPicture(sImagePath+fileName);
+							ip.setIncidentMsg(newMsg);
+							picHelper.saveOrUpdate(ip);
 	
 							BufferedImage bImageFromConvert = ImageIO.read(fileContent);
 							imagePaths.add(sImagePath+fileName);
-	
+							
 							File vImageFile = new File(sImagePath+fileName);
 	
 							ImageIO.write(bImageFromConvert, "jpg", vImageFile);
@@ -109,11 +120,12 @@ public class CampusConnectAndroidController {
 							ImageIO.write(img, "jpg", new File(sImagePath+fileName+"_thumb.jpg"));
 			    		} catch ( IOException e ) {
 			    			System.out.println("Error writing images: " + e.getMessage());
-			    			helper.delete(newMsg);
+			    			//helper.delete(newMsg);
 			    		}
 					}
 			    }
 			}
+			newMsg.setIncidentPictures(pictures);
 			newMsg.setLatlong(latitude + "," + longitude);
 			helper.saveOrUpdate(newMsg);
 		}

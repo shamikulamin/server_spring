@@ -89,4 +89,8 @@ public class CommunityMsgHelper {
 		}
 		return vReturnObjects;
 	}
+	
+	public CommunityMsg saveOrUpdate( CommunityMsg msg ) {
+		return commServ.save(msg);
+	}
 }

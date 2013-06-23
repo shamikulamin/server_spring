@@ -1,17 +1,13 @@
 package com.campusconnect.server.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.campusconnect.server.controller.helper.CampusConnectWebHelper;
-import com.campusconnect.server.controller.helper.CommunityMsgHelper;
+import com.campusconnect.server.domain.CommunityMsg;
 
 @Controller
 @RequestMapping(value = "/")
@@ -34,8 +30,13 @@ public class CampusConnectWebController {
 		return "messages";
 	}
 	
-	@RequestMapping(value = "/postMessage", method = RequestMethod.GET)
-	public String postMessage(Model uiModel) {
+	@RequestMapping(value = "/postMessage", method = RequestMethod.POST)
+	public String postMessage(@RequestParam("messagetype") String msgType, @RequestParam("message") String message,
+							  @RequestParam("msgTitle") String messageTitle, @RequestParam("expiryhours") String expiryHours,
+							  @RequestParam("expiryDays") String expiryDays, @RequestParam("pushCheck") String pushCheck,
+							  @RequestParam("location_list") String locationList,
+							Model uiModel) {
+       //new CampusConnectWebHelper(uiModel).handlePost();
 		return "userLogged";
 	}
 	
@@ -56,8 +57,9 @@ public class CampusConnectWebController {
 	}
 	
 	@RequestMapping(value = "showPics", method = RequestMethod.GET)
-	public String showPics(@RequestParam("noOfPics") int noOfPics, Model uiModel) {
-		uiModel.addAttribute("noOfPics", noOfPics);
+	public String showPics(@RequestParam("incidentId") Long id, Model uiModel) {
+		//uiModel.addAttribute("noOfPics", noOfPics);
+		new CampusConnectWebHelper(uiModel).showPics(id);
 		return "showPics";
 	}
 

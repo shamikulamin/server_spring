@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import java.sql.Timestamp;
 import java.util.Date;
 //SELECT DISTINCT a FROM Author a INNER JOIN a.books b WHERE b.publisher.name = 'XYZ Press'
 @SuppressWarnings("serial")
@@ -26,6 +27,17 @@ public class CommunityMsg  implements Serializable {
 	private String latlong;
 	private String msgType;
 	private Date expiryTime;
+	
+	public CommunityMsg() {}
+
+	public CommunityMsg(String messageTitle, String message, Timestamp currentDate, String location, String msgType, Timestamp expiryDate) {
+		this.msgTitle = msgTitle;
+	    this.msgDescription = msgDescription;
+	    this.reportingTime = reportingTime;
+	    this.latlong = latlong;
+	    this.msgType = msgType;
+	    this.expiryTime = expiryTime;
+	}
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "comm_msg_id")	// Note Spring only needs this annotation if the member name isn't the same as column in database

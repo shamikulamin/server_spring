@@ -17,7 +17,7 @@ public class IncidentPicture implements java.io.Serializable {
 	private String picture;
 
 	@Id	// This annotation means column is PRIMARY KEY
-	@Column(name = "incident_id")	// Note Spring only needs this annotation if the member name isn't the same as column in database
+	@Column(name = "id")	// Note Spring only needs this annotation if the member name isn't the same as column in database
 	public Integer getId() {
 		return this.id;
 	}
@@ -27,7 +27,7 @@ public class IncidentPicture implements java.io.Serializable {
 	}
 	
 	@ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="incident_id")
 	public IncidentMsg getIncidentMsg() {
 		return this.incidentMsg;
 	}

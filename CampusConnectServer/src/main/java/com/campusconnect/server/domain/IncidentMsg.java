@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -87,7 +88,7 @@ public class IncidentMsg  implements java.io.Serializable {
 		this.latlong = latlong;
 	}
 	
-	@OneToMany(mappedBy = "id", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "id", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	public Set<IncidentPicture> getIncidentPictures() {
 		return this.incidentPictures;
 	}
