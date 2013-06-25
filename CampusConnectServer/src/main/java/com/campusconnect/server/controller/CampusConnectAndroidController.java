@@ -24,8 +24,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.campusconnect.server.controller.helper.CampusConnectAndroidHelper;
 import com.campusconnect.server.controller.helper.CommunityMsgHelper;
 import com.campusconnect.server.controller.helper.IncidentMsgHelper;
 import com.campusconnect.server.controller.helper.IncidentPictureHelper;
@@ -33,7 +35,7 @@ import com.campusconnect.server.domain.IncidentMsg;
 import com.campusconnect.server.domain.IncidentPicture;
 
 @Controller
-@RequestMapping(value = "/campus_connect_servlet")
+@RequestMapping(value = "/campus_connect_android")
 public class CampusConnectAndroidController {
 	
 	@RequestMapping(value = "/sendReport", method = RequestMethod.POST)
@@ -129,6 +131,28 @@ public class CampusConnectAndroidController {
 			newMsg.setLatlong(latitude + "," + longitude);
 			helper.saveOrUpdate(newMsg);
 		}
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public String loginAndroid(	@RequestParam("netid") String netid_in,
+								@RequestParam("password") String pass_in,
+								@RequestParam("version") String version_in) {
+		return new CampusConnectAndroidHelper().loginAndroid(netid_in,pass_in,version_in);
+	}
+	
+	@RequestMapping(value = "/gcmRegister", method = RequestMethod.POST)
+	@ResponseBody
+	public String gcmRegister( @RequestParam("regID") String regID ) {
+		new CampusConnectAndroidHelper().registerDevice(regID);
+		return "";
+	}
+	
+	@RequestMapping(value = "/gcmUnregister", method = RequestMethod.POST)
+	@ResponseBody
+	public String gcmUnregister( @RequestParam("regID") String regID ) {
+		new CampusConnectAndroidHelper().unregisterDevice(regID);
+		return "";
 	}
 	
 	@RequestMapping(value = "/getCommunityMsg", method = RequestMethod.POST)

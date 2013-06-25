@@ -33,7 +33,7 @@ public class CommunityMsgServiceImpl implements CommunityMsgService {
 
 	@Transactional(readOnly=true)
 	public List<CommunityMsg> getAllWithLocation() {
-		return em.createQuery("FROM CommunityMsg c where c.latlong <> 'none' order by c.reportingTime DESC").getResultList();
+		return em.createQuery("FROM CommunityMsg c where CURRENT_TIMESTAMP() < c.expiryTime AND c.latlong <> 'none' order by c.reportingTime DESC").getResultList();
 	}
 
 	@Transactional(readOnly=true)

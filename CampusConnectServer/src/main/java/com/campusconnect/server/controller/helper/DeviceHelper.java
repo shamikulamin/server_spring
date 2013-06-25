@@ -25,6 +25,10 @@ private DeviceService devServ;
 		devServ.delete(dev);
 	}
 	
+	public void insertDevice(Device dev) {
+		devServ.save(dev);
+	}
+	
 	public void deleteById(String id) {
 		devServ.deleteById(id);
 	}

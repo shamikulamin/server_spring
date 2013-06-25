@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.campusconnect.server.controller.helper.CampusConnectWebHelper;
-import com.campusconnect.server.domain.CommunityMsg;
 
 @Controller
 @RequestMapping(value = "/")
@@ -36,18 +35,18 @@ public class CampusConnectWebController {
 							  @RequestParam("expiryDays") String expiryDays, @RequestParam("pushCheck") String pushCheck,
 							  @RequestParam("location_list") String locationList,
 							Model uiModel) {
-       //new CampusConnectWebHelper(uiModel).handlePost();
+		new CampusConnectWebHelper(uiModel).handlePost(msgType, message, messageTitle, expiryHours, expiryDays, locationList, pushCheck);
 		return "userLogged";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model uiModel) {
-		return "userLogged";
+		return "login";
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(Model uiModel) {
-		return "userLogged";
+		return "logout";
 	}
 	
 	@RequestMapping(value = "showLocationInMap", method = RequestMethod.GET)
@@ -58,7 +57,6 @@ public class CampusConnectWebController {
 	
 	@RequestMapping(value = "showPics", method = RequestMethod.GET)
 	public String showPics(@RequestParam("incidentId") Long id, Model uiModel) {
-		//uiModel.addAttribute("noOfPics", noOfPics);
 		new CampusConnectWebHelper(uiModel).showPics(id);
 		return "showPics";
 	}

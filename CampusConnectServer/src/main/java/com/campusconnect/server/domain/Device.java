@@ -16,6 +16,12 @@ import javax.persistence.Table;
 @NamedQuery(name="Device.getById", query="select distinct d from Device d where d.id = :id")})
 public class Device  implements Serializable {
 	private String regId;
+	
+	public Device() {}
+	
+	public Device(String regID) {
+		this.regId = regID;
+	}
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "regID")	// Note Spring only needs this annotation if the member name isn't the same as column in database

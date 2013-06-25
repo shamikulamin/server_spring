@@ -17,13 +17,13 @@
         <title>JSP Page</title>
          
         <style type="text/css" title="currentStyle">
-		 @import "js/pics/css/zoom.css";		
+		 @import "resources/js/pics/css/zoom.css";		
         </style>
 
-        <script type="text/javascript" charset="utf-8" src="js/DataTables-1.9.2/media/js/jquery.js">
+        <script type="text/javascript" charset="utf-8" src="resources/js/DataTables-1.9.2/media/js/jquery.js">
         </script>
         
-        <script type="text/javascript" src="js/pics/js/zoom.js"></script>
+        <script type="text/javascript" src="resources/js/pics/js/zoom.js"></script>
         
         <script type="text/javascript">
                
@@ -43,8 +43,10 @@
             int i=0;
             for(IncidentPicture aPic : incidentPictures)
             {
+            	String path = aPic.getPicture();
+            	path = path.substring(3);	// Cut off the C:/
          %>
-           		<li><a href="<%=aPic.getPicture()%> title="PIC"><img src="<%=aPic.getPicture()%>.jpg_thumb.jpg" title="PIC"/></a></li>
+           		<li><a href="<%=path%>" title="PIC"><img src="<%=path%>.jpg_thumb.jpg" title="PIC"/></a></li>
          <%
                 i++;
             }

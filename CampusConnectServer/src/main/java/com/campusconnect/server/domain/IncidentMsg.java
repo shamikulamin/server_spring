@@ -88,7 +88,7 @@ public class IncidentMsg  implements java.io.Serializable {
 		this.latlong = latlong;
 	}
 	
-	@OneToMany(mappedBy = "id", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "incidentMsg", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	public Set<IncidentPicture> getIncidentPictures() {
 		return this.incidentPictures;
 	}

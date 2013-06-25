@@ -12,14 +12,14 @@
 
 <link rel="stylesheet" type="text/css" href="js/DataTables-1.9.2/media/css/jquery.dataTables.css"/>
 <style type="text/css" title="currentStyle">
-			@import "js/DataTables-1.9.2/media/css/demo_page.css";
-			@import "js/DataTables-1.9.2/media/css/demo_table_jui.css";
-			@import "js/DataTables-1.9.2/examples/examples_support/themes/smoothness/jquery-ui-1.8.4.custom.css";
+			@import "resources/js/DataTables-1.9.2/media/css/demo_page.css";
+			@import "resources/js/DataTables-1.9.2/media/css/demo_table_jui.css";
+			@import "resources/js/DataTables-1.9.2/examples/examples_support/themes/smoothness/jquery-ui-1.8.4.custom.css";
 </style>
 
-<script type="text/javascript" charset="utf-8" src="js/DataTables-1.9.2/media/js/jquery.js">
+<script type="text/javascript" charset="utf-8" src="resources/js/DataTables-1.9.2/media/js/jquery.js">
 </script>
-<script type="text/javascript" charset="utf-8" src="js/DataTables-1.9.2/media/js/jquery.dataTables.js">
+<script type="text/javascript" charset="utf-8" src="resources/js/DataTables-1.9.2/media/js/jquery.dataTables.js">
 </script>
 <script type="text/javascript">
     
