@@ -138,7 +138,7 @@
                 <tr>
                 <td align=top><b>Message Expiry Time(days)</b>
                 <br>
-                <select id="expirydays" name="expirydays">
+                <select id="expiryDays" name="expiryDays">
                      <option value="0" selected="0" >0</option>
                     <%
                     for(int i = 1 ;i <=7;i++ ){
@@ -174,7 +174,7 @@
             <br>
             <tr bgcolor="#b0c4de">
                 <td align=center colspan=2><hr>
-                   <INPUT TYPE=CHECKBOX NAME="push">Would you like to push?<P>
+                   <INPUT id="pushCheck" type="CHECKBOX" NAME="pushCheck">Would you like to push?<P>
                 </td>
             </tr>
             

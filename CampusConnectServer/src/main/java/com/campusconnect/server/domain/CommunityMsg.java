@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -41,6 +43,7 @@ public class CommunityMsg  implements Serializable {
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "comm_msg_id")	// Note Spring only needs this annotation if the member name isn't the same as column in database
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getCommMsgId() {
 		return this.commMsgId;
 	}

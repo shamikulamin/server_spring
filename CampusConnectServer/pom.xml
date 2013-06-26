@@ -20,6 +20,12 @@
 		</repository>
 	</repositories>
 	<dependencies>
+	    <!-- C3P0 -->
+	    <dependency>
+		      <groupId>c3p0</groupId>
+		      <artifactId>c3p0</artifactId>
+		      <version>0.9.1.2</version>
+		</dependency>
 	    <!-- Commons Codec for Base64 Support -->
 	    <dependency>
 			<groupId>commons-codec</groupId>

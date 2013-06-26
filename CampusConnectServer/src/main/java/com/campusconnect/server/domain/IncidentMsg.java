@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,6 +46,7 @@ public class IncidentMsg  implements java.io.Serializable {
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "incident_id")	// Note Spring only needs this annotation if the member name isn't the same as column in database
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getIncidentId() {
 		return this.incidentId;
 	}

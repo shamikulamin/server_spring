@@ -2,6 +2,8 @@ package com.campusconnect.server.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +20,7 @@ public class IncidentPicture implements java.io.Serializable {
 
 	@Id	// This annotation means column is PRIMARY KEY
 	@Column(name = "id")	// Note Spring only needs this annotation if the member name isn't the same as column in database
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

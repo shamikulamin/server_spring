@@ -5,12 +5,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.campusconnect.server.controller.helper.CampusConnectWebHelper;
 
 @Controller
 @RequestMapping(value = "/")
 public class CampusConnectWebController {
+	
+	@RequestMapping(value = "/restful/test", method = RequestMethod.GET)
+	@ResponseBody
+	public String test(Model uiModel) {
+		return "authenticated";
+	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model uiModel) {
@@ -48,6 +55,12 @@ public class CampusConnectWebController {
 	public String logout(Model uiModel) {
 		return "logout";
 	}
+	
+	@RequestMapping(value = "userLogged", method = RequestMethod.GET)
+	public String userLogged(Model uiModel) {
+		return "userLogged";
+	}
+	
 	
 	@RequestMapping(value = "showLocationInMap", method = RequestMethod.GET)
 	public String location(@RequestParam("latLong") String latLong, Model uiModel) {

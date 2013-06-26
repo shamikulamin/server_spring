@@ -46,7 +46,7 @@
             	String path = aPic.getPicture();
             	path = path.substring(3);	// Cut off the C:/
          %>
-           		<li><a href="<%=path%>" title="PIC"><img src="<%=path%>.jpg_thumb.jpg" title="PIC"/></a></li>
+           		<li><a href="<%=path%>" title="PIC"><img src="<%=path%>_thumb.jpg" title="PIC"/></a></li>
          <%
                 i++;
             }

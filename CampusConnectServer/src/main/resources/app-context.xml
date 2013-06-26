@@ -18,11 +18,29 @@
 		<jdbc:script location="classpath:test-data.sql"/>
 	</jdbc:embedded-database>-->
 	
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/campusconnect" />
         <property name="username" value="root" />
         <property name="password" value="crewman123" />
+    </bean>-->
+     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/campusconnect" />
+		<property name="user" value="root" />
+		<property name="password" value="crewman123" />
+        <property name="properties">
+            <props>
+                <prop key="c3p0.acquire_increment">1</prop>
+                <prop key="c3p0.idle_test_period">3000</prop>
+                <prop key="c3p0.max_size">20</prop>
+                <prop key="c3p0.min_size">5</prop>
+                <prop key="c3p0.max_statements">50</prop>
+                <prop key="c3p0.timeout">300</prop>
+                <prop key="user">root</prop>
+                <prop key="password">crewman123</prop>
+            </props>
+        </property>
     </bean>
 
 	<!--<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -43,7 +61,6 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
 		<property name="packagesToScan" value="com.campusconnect.server.domain" />
-		<property name="persistenceXmlLocation" value="classpath:hibernate.cfg.xml" />
 		<!--<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">

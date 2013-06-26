@@ -20,7 +20,7 @@ import com.unboundid.util.ssl.SSLUtil;
 import com.unboundid.util.ssl.TrustAllTrustManager;
 
 public class CampusConnectAndroidHelper {
-	private static final String minSupportedVersion = "1.0.0";
+	public static final String minSupportedVersion = "1.0.0";
 	
 	public void registerDevice(String regID){
         DeviceHelper helper = new DeviceHelper();
@@ -41,6 +41,10 @@ public class CampusConnectAndroidHelper {
 		PrivateKey privateKey = getPrivKey();
 		String plain_netid = decrypt(enc_netid_bytes, privateKey);
 		String plain_pass = decrypt(enc_pass_bytes, privateKey);
+		
+		/* Not Authenticated */
+		if( plain_netid == "" || plain_pass == "" )
+			return "";
 
 		//Remove later
 		if( plain_netid.equals("test") && plain_pass.equals("123") ) {
@@ -131,6 +135,7 @@ public class CampusConnectAndroidHelper {
 				dectyptedText = cipher.doFinal(text);
 			} catch (Exception ex) {
 				ex.printStackTrace();
+				return "";
 			}
 			return new String(dectyptedText);
 		}
