@@ -21,6 +21,7 @@ public class CommunityMsgServiceImpl implements CommunityMsgService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	
 	@Transactional(readOnly=true)
 	public List<CommunityMsg> getAll() {
 		return em.createQuery("FROM CommunityMsg c").getResultList();

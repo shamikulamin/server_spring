@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.campusconnect.server.domain.IncidentPicture;
+import com.campusconnect.server.domain.IncidentRecording;
 
 @SuppressWarnings("serial")
 @Entity
@@ -31,17 +32,21 @@ public class IncidentMsg  implements java.io.Serializable {
 	private String msgDescription;
 	private Date reportingTime;
 	private String latlong;
+	private String contactName;
+	private String contactNumber;
+	private String contactAddress;
 	private Set<IncidentPicture> incidentPictures = new HashSet<IncidentPicture>(0);
-	//private int noOfImages;
+	private Set<IncidentRecording> incidentRecordings = new HashSet<IncidentRecording>(0);
 	
 	public IncidentMsg() {}
 
-	public IncidentMsg(String msg_title, String msg_description, Timestamp timestamp, String latLong2, Set<IncidentPicture> iPics) {
+	public IncidentMsg(String msg_title, String msg_description, Timestamp timestamp, String latLong2, Set<IncidentPicture> iPics, Set<IncidentRecording> iRecs) {
 		this.msgTitle = msgTitle;
 		this.msgDescription = msgDescription;
 		this.reportingTime = reportingTime;
 		this.latlong = latlong;
 		this.incidentPictures = incidentPictures;
+		this.incidentRecordings = iRecs;
 	}
 
 	@Id	// This annotation means column is PRIMARY KEY
@@ -91,6 +96,33 @@ public class IncidentMsg  implements java.io.Serializable {
 		this.latlong = latlong;
 	}
 	
+	@Column(name = "contactName")
+	public String getContactName() {
+		return this.contactName;
+	}
+
+	public void setContactName(String name) {
+		this.contactName = name;
+	}
+	
+	@Column(name = "contactNumber")
+	public String getContactNumber() {
+		return this.contactNumber;
+	}
+
+	public void setContactNumber(String number) {
+		this.contactNumber = number;
+	}
+	
+	@Column(name = "contactAddress")
+	public String getContactAddress() {
+		return this.contactAddress;
+	}
+
+	public void setContactAddress(String address) {
+		this.contactAddress = address;
+	}
+	
 	@OneToMany(mappedBy = "incidentMsg", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	public Set<IncidentPicture> getIncidentPictures() {
 		return this.incidentPictures;
@@ -100,14 +132,15 @@ public class IncidentMsg  implements java.io.Serializable {
 		this.incidentPictures = incidentPictures;
 	}
 	
-	/*
-	public void setNoOfImages(int numImages){
-		this.noOfImages = numImages;
+	@OneToMany(mappedBy = "incidentMsg", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	public Set<IncidentRecording> getIncidentRecordings() {
+		return this.incidentRecordings;
 	}
-	public int getNoOfImages(){
-		return this.noOfImages;
-	}*/
-	
+
+	public void setIncidentRecordings(Set<IncidentRecording> incidentRecordings) {
+		this.incidentRecordings = incidentRecordings;
+	}
+
 	@Override
 	public String toString(){
 		return msgTitle + ", " + msgDescription;

@@ -25,5 +25,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Eric/Downloads/bcprov-jdk15on-149.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Eric/Downloads/JavaPNS_2.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

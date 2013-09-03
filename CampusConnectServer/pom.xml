@@ -20,11 +20,22 @@
 		</repository>
 	</repositories>
 	<dependencies>
+	    <!-- Decoding MP4 from Android -->
+	    <dependency>
+		  <groupId>com.googlecode.mp4parser</groupId> 
+		  <artifactId>isoparser</artifactId> 
+		  <version>1.0-RC-15</version> 
+		</dependency> 
 	    <!-- C3P0 -->
 	    <dependency>
 		      <groupId>c3p0</groupId>
 		      <artifactId>c3p0</artifactId>
 		      <version>0.9.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>3.6.0.Final</version>
 		</dependency>
 	    <!-- Commons Codec for Base64 Support -->
 	    <dependency>
@@ -53,6 +64,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>3.1.4.RELEASE</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-taglibs</artifactId>
+		  <version>3.1.4.RELEASE</version>
 		</dependency>
 	    <!-- Google GCM Library -->
 	    <dependency>
@@ -261,7 +277,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-			<scope>provided</scope>
 		</dependency>
 	
 		<!-- Test -->
@@ -270,7 +285,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>      
 	</dependencies>
     <build>
         <plugins>

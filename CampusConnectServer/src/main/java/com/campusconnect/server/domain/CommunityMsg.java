@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import java.sql.Timestamp;
 import java.util.Date;
 //SELECT DISTINCT a FROM Author a INNER JOIN a.books b WHERE b.publisher.name = 'XYZ Press'
 @SuppressWarnings("serial")
@@ -32,13 +31,13 @@ public class CommunityMsg  implements Serializable {
 	
 	public CommunityMsg() {}
 
-	public CommunityMsg(String messageTitle, String message, Timestamp currentDate, String location, String msgType, Timestamp expiryDate) {
-		this.msgTitle = msgTitle;
-	    this.msgDescription = msgDescription;
-	    this.reportingTime = reportingTime;
-	    this.latlong = latlong;
-	    this.msgType = msgType;
-	    this.expiryTime = expiryTime;
+	public CommunityMsg(String messageTitle, String message, Date reportTime, String location, String msgType, Date expiryDate) {
+		this.msgTitle = messageTitle;
+		this.msgDescription = message;
+		this.reportingTime = reportTime;
+		this.latlong = location;
+		this.msgType = msgType;
+		this.expiryTime = expiryDate;
 	}
 
 	@Id	// This annotation means column is PRIMARY KEY
@@ -70,7 +69,7 @@ public class CommunityMsg  implements Serializable {
 		this.msgDescription = msgDescription;
 	}
 	
-	@Temporal(TemporalType.DATE)// Tells hibernate to map java.util.Date to java.sql.Date
+	@Temporal(TemporalType.TIMESTAMP)// Tells hibernate to map java.util.Date to java.sql.Date
 	@Column(name = "reporting_time")
 	public Date getReportingTime() {
 		return this.reportingTime;
@@ -98,7 +97,7 @@ public class CommunityMsg  implements Serializable {
 		this.msgType = msgType;
 	}
 	
-	@Temporal(TemporalType.DATE)// Tells hibernate to map java.util.Date to java.sql.Date
+	@Temporal(TemporalType.TIMESTAMP)// Tells hibernate to map java.util.Date to java.sql.Date
 	@Column(name = "expiry_time")
 	public Date getExpiryTime() {
 		return this.expiryTime;

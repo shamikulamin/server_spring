@@ -1,7 +1,7 @@
 package com.campusconnect.server.service;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import com.campusconnect.server.domain.Device;
 
 public interface DeviceService {

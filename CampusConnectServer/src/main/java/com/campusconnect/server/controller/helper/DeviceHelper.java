@@ -2,18 +2,22 @@ package com.campusconnect.server.controller.helper;
 
 import java.util.ArrayList;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
+import javax.servlet.ServletContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.campusconnect.server.domain.Device;
 import com.campusconnect.server.service.DeviceService;
 
 public class DeviceHelper {
-private DeviceService devServ;
+	private DeviceService devServ;
 	
-	public DeviceHelper() {
-		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-		ctx.load("classpath:app-context.xml");
-		ctx.refresh();
+	public DeviceHelper(ServletContext sc) {
+		//GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+		//ctx.load("classpath:app-context.xml");
+		//ctx.refresh();
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sc);
 		devServ = ctx.getBean("jpaDeviceService", DeviceService.class);
 	}
 	

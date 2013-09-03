@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
@@ -10,8 +11,11 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		
+    <import resource="classpath:datasource-tx-jpa.xml"/>
 
 	<!-- <jdbc:embedded-database id="dataSource" type="H2">
 		<jdbc:script location="classpath:schema.sql"/>
@@ -20,49 +24,107 @@
 	
 	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/campusconnect" />
+        <property name="url" value="jdbc:mysql://localhost:3306/campus_connect" />
         <property name="username" value="root" />
-        <property name="password" value="crewman123" />
+        <property name="password" value="1234" />
     </bean>-->
-     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/campus_connect"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
+    </bean>-->
+    
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/campus_connect" />
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
+    </bean>-->
+
+     <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/campusconnect" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/campus_connect" />
 		<property name="user" value="root" />
-		<property name="password" value="crewman123" />
-        <property name="properties">
+		<property name="password" value="1234" />
+
+		<! Pool properties >
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="maxStatements" value="50" />
+		<property name="idleConnectionTestPeriod" value="3000" />
+		<property name="loginTimeout" value="300" />
+		<property name="unreturnedConnectionTimeout" value="30" />
+		<property name="debugUnreturnedConnectionStackTraces" value="true" />
+        <!<property name="properties">
             <props>
-                <prop key="c3p0.acquire_increment">1</prop>
-                <prop key="c3p0.idle_test_period">3000</prop>
-                <prop key="c3p0.max_size">20</prop>
-                <prop key="c3p0.min_size">5</prop>
-                <prop key="c3p0.max_statements">50</prop>
-                <prop key="c3p0.timeout">300</prop>
-                <prop key="user">root</prop>
-                <prop key="password">crewman123</prop>
+                <prop key="c3p0.minPoolSize">5</prop>
+		        <prop key="c3p0.maxPoolSize">20</prop>
+		        <prop key="c3p0.acquireIncrement">1</prop>
+		        <prop key="c3p0.maxStatements">50</prop>
+		        <prop key="c3p0.idleConnectionTestPeriod">10800</prop>
+         		<prop key="c3p0.maxIdleTime">1600</prop>
+		        <prop key="c3p0.preferredTestQuery">SELECT 1;</prop>
+		        <prop key="c3p0.testConnectionOnCheckout">false</prop>
+		        <prop key="c3p0.timeout">300</prop>
+		        <prop key="c3p0.debugUnreturnedConnectionStackTraces">true</prop>
+		        <prop key="c3p0.unreturnedConnectionTimeout">1000</prop>
+		        <prop key="user">root</prop>
+		        <prop key="password">1234</prop>
             </props>
-        </property>
-    </bean>
+        </property>>
+    </bean>-->
 
 	<!--<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>-->
-
-	<tx:annotation-driven/>
 	
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="emf"/>
-	</bean>
+	</bean>-->
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!--<tx:annotation-driven transaction-manager="transactionManager" />-->
 	
-	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<!--<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
-		<property name="packagesToScan" value="com.campusconnect.server.domain" />
+		<property name="packagesToScan" value="com.campusconnect.server.domain" />-->
 		<!--<property name="jpaProperties">
-			<props>
+		    <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.show_sql">true</prop>     
+                <prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>
+	            <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+	            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/campus_connect</prop>
+	            <prop key="hibernate.connection.username">root</prop>
+	            <prop key="hibernate.connection.password">1234</prop>
+                <prop key="hibernate.c3p0.max_size">20</prop>
+	            <prop key="hibernate.c3p0.min_size">5</prop>
+	            <prop key="hibernate.c3p0.acquire_increment">1</prop>
+	            <prop key="hibernate.c3p0.idle_test_period">300</prop>
+	            <prop key="hibernate.c3p0.max_statements">50</prop>
+	            <prop key="hibernate.c3p0.timeout">1800</prop>    
+            </props>-->
+		    <!--<props>
+	            <prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>
+	            <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+	            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/campus_connect</prop>
+	            <prop key="hibernate.connection.username">root</prop>
+	            <prop key="hibernate.connection.password">1234</prop>
+	            <prop key="hibernate.c3p0.max_size">20</prop>
+	            <prop key="hibernate.c3p0.min_size">5</prop>
+	            <prop key="hibernate.c3p0.acquire_increment">1</prop>
+	            <prop key="hibernate.c3p0.idle_test_period">300</prop>
+	            <prop key="hibernate.c3p0.max_statements">50</prop>
+	            <prop key="hibernate.c3p0.timeout">1800</prop> 
+	        </props> -->
+			<!--<props>
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.H2Dialect
 				</prop>
@@ -70,13 +132,13 @@
 				<prop key="hibernate.jdbc.fetch_size">50</prop>
 				<prop key="hibernate.jdbc.batch_size">10</prop>
 				<prop key="hibernate.show_sql">true</prop>
-			</props>
-		</property>-->
-	</bean>
+			</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 
-	<context:annotation-config/>
+	<context:annotation-config />
 	<context:component-scan base-package="com.campusconnect.server.service.jpa" />
-
+	
 	<!--<context:component-scan base-package="com.campusconnect.server" />
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">

@@ -12,9 +12,9 @@
 
 	<!-- CSS -->
 	
-	<link rel="stylesheet" href="resources/css/reset.css">
-	<link rel="stylesheet" href="resources/css/animate.css">
-	<link rel="stylesheet" href="resources/css/styles.css">
+	<link rel="stylesheet" href="media/css/reset.css">
+	<link rel="stylesheet" href="media/css/animate.css">
+	<link rel="stylesheet" href="media/css/styles.css">
 	
 </head>
 
@@ -27,7 +27,7 @@
 	<div id="container">
 		
 		<div id="header">
-			<a href='#'><img src="resources/img/CampusConnectLogo.png" alt="Campus Connect"></img></a>
+			<a href='#'><img src="media/images/CampusConnectLogo.png" alt="Campus Connect"></img></a>
 		</div>
 		
 		<form name="f" action="<c:url value='j_spring_security_check' />" method="POST" >
@@ -53,13 +53,13 @@
 		
 		<label for="username">Password:</label>
 		
-		<p><a href="#">Forgot your password?</a>
+		<p><a style="display:none;" href="#">Forgot your password?</a>
 		
 		<input type="password" name='password' >
 		
 		<div id="lower">
 		
-		<label class="check"><input type="checkbox">Keep me logged in</label>
+		<label style="display:none;" class="check"><input style="display:none;" name="_spring_security_remember_me" value="1" type="hidden">Keep me logged in</label>
 		
 		<input type="submit" value="Login">
 		

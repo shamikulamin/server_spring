@@ -2,9 +2,23 @@ package com.campusconnect.server.controller.helper;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javapns.Push;
+import javapns.communication.exceptions.CommunicationException;
+import javapns.communication.exceptions.KeystoreException;
+import javapns.notification.PushNotificationPayload;
+import javapns.notification.PushedNotification;
+
+import javax.servlet.ServletContext;
+
+import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.springframework.ui.Model;
 
 import com.campusconnect.server.domain.CommunityMsg;
@@ -18,37 +32,39 @@ import com.google.android.gcm.server.Sender;
 
 public class CampusConnectWebHelper {
 	private static final String API_KEY = "AIzaSyCVZ_FxaGmbvCjbJ_vShvdL3g-86pJIZR0";
-	Model model;
+	private static final Logger logger = Logger.getLogger(CampusConnectWebHelper.class);
+	private Model model;
+	private ServletContext servletContext;
 	
-	public CampusConnectWebHelper(Model uiModel) {
+	public CampusConnectWebHelper(Model uiModel, ServletContext sc) {
 		model = uiModel;
+		servletContext = sc;
 	}
 	
 	public void getIncidentMsgs() {
-		IncidentMsgHelper helper = new IncidentMsgHelper();
+		IncidentMsgHelper helper = new IncidentMsgHelper(servletContext);
 		List<IncidentMsg> result = helper.getIncidentMessages();
 		model.addAttribute("incidentMessages", result);
 	}
 	
 	public void getPostedMessages() {
-		CommunityMsgHelper helper = new CommunityMsgHelper();
+		CommunityMsgHelper helper = new CommunityMsgHelper(servletContext);
 		List<CommunityMsg> result = helper.getCommunityMessages();
 		model.addAttribute("communityMessages", result);
 	}
 	
 	public void showPics(Long incidentId) {
-        IncidentMsgHelper msgHelper = new IncidentMsgHelper();
+        IncidentMsgHelper msgHelper = new IncidentMsgHelper(servletContext);
         ArrayList<IncidentPicture> result = new ArrayList<IncidentPicture> (msgHelper.getIncidentById(incidentId).getIncidentPictures());
         model.addAttribute("incidentPictures",result);
 	}
 	
-    public void handlePost(String msgType, String message, String messageTitle, String expiryHours, String expiryDays, String locationList, String bPush) {
+    public void handlePost(String msgType, String message, String messageTitle, String expiryDateTime, String locationList, String bPush) {
 
-    	CommunityMsgHelper helper = new CommunityMsgHelper();
-        long delay = Long.parseLong(expiryHours) * 60 * 60 * 1000 + Long.parseLong(expiryDays) * 24 * 60 * 60 * 1000;
-        if(delay == 0)
-            delay = 24 * 60 * 60 * 1000;
-
+    	CommunityMsgHelper helper = new CommunityMsgHelper(servletContext);
+    	
+        long time = 0;
+        Date date = null;
         String location = new String();
         
         if(locationList == null || locationList.equals(""))
@@ -56,19 +72,69 @@ public class CampusConnectWebHelper {
         else
         	location = formatLatLong(locationList);
         
-        CommunityMsg newMessage = new CommunityMsg(messageTitle, message,
-        											getCurrentDate(System.currentTimeMillis()), location, msgType,
-        											getExpiryDate(System.currentTimeMillis(), delay));
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			date = dateFormat.parse(expiryDateTime);
+			time = date.getTime();
+			if( time <= System.currentTimeMillis() ) {
+				time = System.currentTimeMillis() + 86400000;	// + 24 hours
+				date = new Date(time);
+			}
+		} catch (ParseException e) {
+			date = new Timestamp(System.currentTimeMillis());
+		}
+        
+        CommunityMsg newMessage = new CommunityMsg(messageTitle, message,getCurrentDate(System.currentTimeMillis()), location, msgType, date);
         helper.saveOrUpdate(newMessage);
 
         int iMsgID = newMessage.getCommMsgId();
-        if (bPush!=null)
+        if (bPush!=null) {
         	sendPushNotification(messageTitle, iMsgID, msgType);
+        	sendPushNotificationIos(messageTitle, iMsgID, msgType);
+        }
     }
     
    
     private ArrayList<String> getDeviceList() {
-    	return new DeviceHelper().getDeviceList();
+    	return new DeviceHelper(servletContext).getDeviceList();
+	}
+    
+    private ArrayList<String> getIosDeviceList() {
+    	return new IosDeviceHelper(servletContext).getDeviceList();
+    }
+    
+    private void sendPushNotificationIos(String alertTitle, int iMsgID, String msgType) {
+
+    	List<PushedNotification> notifications = null;
+    	ArrayList<String> devices = getIosDeviceList();
+    	System.out.println("IOS DEVICES: " + devices);
+    	/* Send Notifications to IOS Devices */
+    	PushNotificationPayload payload = PushNotificationPayload.complex();
+    	try {
+    		payload.addAlert(alertTitle);
+    		payload.addCustomDictionary("msgID",Integer.toString(iMsgID));
+			notifications = Push.payload(payload, "/usr/key/keystore.p12", "crewman123", false, devices);
+		} catch (CommunicationException e) {
+			e.printStackTrace();
+		} catch (KeystoreException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	
+    	IosDeviceHelper iosDevHelp = new IosDeviceHelper(servletContext);
+
+    	for( int i = 0; i < notifications.size(); i++ ) {
+    		if( !notifications.get(i).isSuccessful() ) {
+    			String invalidToken = notifications.get(i).getDevice().getToken();
+    			iosDevHelp.deleteById(invalidToken);
+    			System.out.println("Exception: " + notifications.get(i).getException());
+    		} else {
+    			System.out.println("Push Sent to " + notifications.get(i).getDevice().getToken());
+    		}
+    	}
+    	
+    	
 	}
     
     private void sendPushNotification(String alertTitle, int iMsgID, String msgType) {
@@ -82,7 +148,7 @@ public class CampusConnectWebHelper {
     		Message message = new Message.Builder().addData("title", alertTitle).addData("msgType",msgType).addData("msgID",Integer.toString(iMsgID)).build();
     		MulticastResult result = sender.send(message, devices, 5);
     		System.out.println( result.getSuccess()+" notifications successfully sent");
-    		DeviceHelper devHelp = new DeviceHelper();
+    		DeviceHelper devHelp = new DeviceHelper(servletContext);
 
     		for (int i = 0; i < result.getTotal(); i++) {
     			Result r = result.getResults().get(i);

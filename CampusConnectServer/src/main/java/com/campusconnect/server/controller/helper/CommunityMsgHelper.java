@@ -2,21 +2,31 @@ package com.campusconnect.server.controller.helper;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.campusconnect.server.domain.CommunityMsg;
 import com.campusconnect.server.service.CommunityMsgService;
 
 public class CommunityMsgHelper {
+	
 	private CommunityMsgService commServ;
 	
-	public CommunityMsgHelper() {
-		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-		ctx.load("classpath:app-context.xml");
-		ctx.refresh();
+	public CommunityMsgHelper(ServletContext sc) {
+		//GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+		//ctx.load("classpath:app-context.xml");
+		//ctx.refresh();
+		//commServ = ctx.getBean("jpaCommunityMsgService", CommunityMsgService.class);
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sc);
 		commServ = ctx.getBean("jpaCommunityMsgService", CommunityMsgService.class);
+	}
+
+	public void setCommMsgService( CommunityMsgService commServ ) {
+		this.commServ = commServ;
 	}
 	
 	public JSONArray getCommunityMsgForMap()
@@ -65,6 +75,32 @@ public class CommunityMsgHelper {
 	public List<CommunityMsg> getCommunityMessages() 
 	{
 		return commServ.getAll();
+	}
+	
+	public JSONObject getAllCommunityMsgJSON() {
+		JSONArray vReturnObjects = new JSONArray();
+		List<CommunityMsg> message = commServ.getAll();
+		for(int i=0; i < message.size(); i++){
+			JSONArray object = new JSONArray();
+			CommunityMsg msg = message.get(i);
+			try {
+				object.put(msg.getCommMsgId());
+				object.put(msg.getMsgTitle());
+				object.put(msg.getMsgDescription());
+				if( msg.getLatlong() == null || msg.getLatlong().equals("none") || msg.getLatlong().equals("") ) {
+					object.put("None");
+				} else {
+					object.put("<a class='fancybox fancybox.iframe' href='showLocationInMap?latLong="+msg.getLatlong()+"'>Location</a>");
+				}
+			} catch (Exception e) {
+				System.out.println("Exception in Object.put");
+				e.printStackTrace();
+			}
+			vReturnObjects.put(object);
+		}
+		JSONObject ret = new JSONObject();
+		ret.put("aaData", vReturnObjects);
+		return ret;
 	}
 	
 	public JSONArray getCommunityMsgJSON()
