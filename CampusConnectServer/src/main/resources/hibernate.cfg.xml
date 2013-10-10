@@ -4,10 +4,10 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/campus_connect?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://webdb.uta.edu/pd-mobile?zeroDateTimeBehavior=convertToNull</property>
     <!-- <property name="hibernate.connection.zeroDateTimeBehavior">convertToNull</property> -->
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">1234</property>
+    <property name="hibernate.connection.username">pd-mobile</property>
+    <property name="hibernate.connection.password">abspeeZZDbm4RafT</property>
     <property name="hibernate.show_sql">true</property>
     <!--<property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>-->

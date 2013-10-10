@@ -34,7 +34,7 @@ import com.unboundid.util.ssl.TrustAllTrustManager;
 
 public class CampusConnectAndroidHelper {
 	public static final String minSupportedVersion = "1.0.0";
-	private static final boolean isLinux = false;
+	private static final boolean isLinux = true;
 	private ServletContext servletContext;
 	
 	public CampusConnectAndroidHelper(ServletContext sc) {
@@ -157,7 +157,7 @@ public class CampusConnectAndroidHelper {
 			
 			try {
 				if( isLinux ) {	// Linux
-					inputStream = new ObjectInputStream(new FileInputStream("/usr/key/private.key"));
+					inputStream = new ObjectInputStream(new FileInputStream("/opt/www/data/pd-webapps.uta.edu/mobile/key/private.key"));
 				} else {		// Windows
 					inputStream = new ObjectInputStream(new FileInputStream("C:/private.key"));
 				}
@@ -202,7 +202,7 @@ public class CampusConnectAndroidHelper {
 			try {
 				File f = null;
 				if( isLinux ) {	// Linux
-					f = new File("/usr/key/private_key.der");
+					f = new File("/opt/www/data/pd-webapps.uta.edu/mobile/key/private_key.der");
 				} else {		// Windows
 					f = new File("C:/private_key.der");
 				}

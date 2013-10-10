@@ -85,9 +85,10 @@ public class CampusConnectAndroidController {
 			
 			// Persist new msg to db so we can use it's id as a path
 			helper.saveOrUpdate(newMsg);
-    		//String sImagePath = "C:/incidentImages/"+newMsg.getIncidentId()+"/";
-			String sImagePath = "/home/crewman/incidentImages/"+newMsg.getIncidentId()+"/";
-			String sRecordingPath = "/home/crewman/incidentRecordings/" + newMsg.getIncidentId() + "/";
+    		String sImagePath = "/opt/www/data/pd-webapps.uta.edu/mobile/image/"+newMsg.getIncidentId()+"/";
+			//String sImagePath = "/home/crewman/incidentImages/"+newMsg.getIncidentId()+"/";
+			//String sRecordingPath = "/home/crewman/incidentRecordings/" + newMsg.getIncidentId() + "/";
+    		String sRecordingPath = "/opt/www/data/pd-webapps.uta.edu/mobile/recordings/"+ newMsg.getIncidentId()+"/";
     		
     		// Set up our new directory for this report
     		boolean success = (new File(sImagePath)).mkdirs();
@@ -269,3 +270,4 @@ public class CampusConnectAndroidController {
 		return new CommunityMsgHelper(servletContext).getCommunityMsgDesc(id);
 	}
 }
+
