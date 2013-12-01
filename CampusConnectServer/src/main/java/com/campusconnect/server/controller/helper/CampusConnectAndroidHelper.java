@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
@@ -71,6 +72,7 @@ public class CampusConnectAndroidHelper {
 		String plain_netid = "";
 		String plain_pass = "";
 		
+		//System.out.println("Netid:  "+netid_in+new File("user.txt").getAbsolutePath());
 		/* Decode from Base64 */
 		byte[] enc_netid_bytes = Base64.decodeBase64(netid_in);
 		byte[] enc_pass_bytes = Base64.decodeBase64(pass_in);
@@ -157,9 +159,9 @@ public class CampusConnectAndroidHelper {
 			
 			try {
 				if( isLinux ) {	// Linux
-					inputStream = new ObjectInputStream(new FileInputStream("/opt/www/data/pd-webapps.uta.edu/mobile/key/private.key"));
+					inputStream =new ObjectInputStream( servletContext.getResourceAsStream("/WEB-INF/keys/private.key"));
 				} else {		// Windows
-					inputStream = new ObjectInputStream(new FileInputStream("C:/private.key"));
+					//inputStream = new ObjectInputStream(new FileInputStream("C:/private.key"));
 				}
 				pk = (PrivateKey) inputStream.readObject();
 				inputStream.close();
@@ -197,17 +199,17 @@ public class CampusConnectAndroidHelper {
 			}
 			return new String(dectyptedText);
 		}
-		
+
 		private PrivateKey getPrivKeyIos() {
 			try {
 				File f = null;
 				if( isLinux ) {	// Linux
-					f = new File("/opt/www/data/pd-webapps.uta.edu/mobile/key/private_key.der");
+					f = new File("/WEB-INF/keys/private_key.der");
 				} else {		// Windows
 					f = new File("C:/private_key.der");
 				}
 				FileInputStream fis = new FileInputStream(f);
-				DataInputStream dis = new DataInputStream(fis);
+				DataInputStream dis = new DataInputStream(servletContext.getResourceAsStream("/WEB-INF/keys/private_key.der"));
 				byte[] keyBytes = new byte[(int)f.length()];
 				dis.readFully(keyBytes);
 				dis.close();

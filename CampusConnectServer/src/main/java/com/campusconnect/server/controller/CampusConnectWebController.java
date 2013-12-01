@@ -1,15 +1,24 @@
 package com.campusconnect.server.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -137,6 +146,29 @@ public class CampusConnectWebController {
 							  @RequestParam("msgTitle") String messageTitle, @RequestParam("expirydatetime") String expiryDateTime,
 							  @RequestParam(value="pushCheck", required = false) String pushCheck, @RequestParam("location_list") String locationList,
 							  Model uiModel) {
+		String half=null, date=null, time=null, hour=null, min=null, sec=null;
+		StringTokenizer st = new StringTokenizer(expiryDateTime," ");
+
+		while(st.hasMoreTokens()){
+			 date = st.nextToken();
+			 time = st.nextToken();
+			half= st.nextToken();
+			StringTokenizer xt = new StringTokenizer(time,":");
+			while(xt.hasMoreTokens()){
+				 hour = xt.nextToken();
+				 min = xt.nextToken();
+				 sec = xt.nextToken();
+			}
+		}
+		if(half.equalsIgnoreCase("PM")){
+			int iHour = Integer.parseInt(hour);
+			iHour=iHour+12;
+			hour=String.valueOf(iHour);
+			expiryDateTime=date+"T"+hour+":"+min+":"+sec;
+		}
+		else{
+			expiryDateTime=date+"T"+hour+":"+min+":"+sec;
+		}
 		new CampusConnectWebHelper(uiModel, servletContext).handlePost(msgType, message, messageTitle, expiryDateTime, locationList, pushCheck);
 		return "redirect:/";
 	}
@@ -173,6 +205,36 @@ public class CampusConnectWebController {
 		new CampusConnectWebHelper(uiModel, servletContext).showPics(id);
 		return "showPics";
 	}
+	
+	@RequestMapping(value = "/images/{number}/{filename}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> testphoto(@PathVariable int number, @PathVariable String filename) throws IOException {
+		
+	    InputStream in = new FileInputStream("/opt/www/data/pd-webapps.uta.edu/mobile/images/"+number+"/"+filename+".png");
+		
+		//InputStream in = new FileInputStream("C:/images/"+number+"/"+filename+".png");
+
+	    final HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_PNG);
+	    ResponseEntity<byte[]> resp = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+	    in.close();
+	    return resp;
+
+	}
+	
+	@RequestMapping(value = "/recordings/{number}/{filename}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> testrecordings(@PathVariable int number, @PathVariable String filename) throws IOException {
+		
+	    InputStream in = new FileInputStream("/opt/www/data/pd-webapps.uta.edu/mobile/recordings/"+number+"/"+filename+".3gp");
+		//InputStream in = new FileInputStream("C:/recordings/"+number+"/"+filename+".3gp");
+
+	    final HttpHeaders headers = new HttpHeaders();
+	    //headers.setContentType(MediaType.);
+	    ResponseEntity<byte[]> resp = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+	    in.close();
+	    return resp;
+
+	}
+	
 	
 	@RequestMapping(value = "showRecording", method = RequestMethod.GET)
 	public String showRec(@RequestParam("recName") String recName, 

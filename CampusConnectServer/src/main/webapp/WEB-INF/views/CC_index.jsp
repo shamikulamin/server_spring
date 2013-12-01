@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="./media/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="./media/js/jquery.fancybox.pack.js?v=2.1.5"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+	<script type="text/javascript" src="./media/js/datetimepicker.js"></script>
 	
 	<title>Index</title>
 	<script>
@@ -210,7 +211,8 @@
 							</li>
 						  <li>
 							  <label for="expirydatetime">Expire Date/Time<em>*</em> (Ex: yyyy-MM-dd'T'HH:mm)</label>
-							  <input type="datetime-local" id="expirydatetime" name="expirydatetime"/>
+							  <input id="expirydatetime" name="expirydatetime" type="text" size="25"><a href="javascript:NewCal('expirydatetime','ddmmyyyy',true,12)"><img src="media/images/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
+							 <!--  <input type="datetime-local" id="expirydatetime" name="expirydatetime"/> -->
 							</li>
 						  <li>
 							  <label for="msgTitle">Message title:<em>*</em></label>

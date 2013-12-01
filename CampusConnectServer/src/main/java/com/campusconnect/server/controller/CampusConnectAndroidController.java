@@ -85,7 +85,9 @@ public class CampusConnectAndroidController {
 			
 			// Persist new msg to db so we can use it's id as a path
 			helper.saveOrUpdate(newMsg);
-    		String sImagePath = "/opt/www/data/pd-webapps.uta.edu/mobile/image/"+newMsg.getIncidentId()+"/";
+			//String sImagePath= "C:/images/"+newMsg.getIncidentId()+"/";
+			//String sRecordingPath = "C:/recordings/"+newMsg.getIncidentId()+"/";
+    		String sImagePath = "/opt/www/data/pd-webapps.uta.edu/mobile/images/"+newMsg.getIncidentId()+"/";
 			//String sImagePath = "/home/crewman/incidentImages/"+newMsg.getIncidentId()+"/";
 			//String sRecordingPath = "/home/crewman/incidentRecordings/" + newMsg.getIncidentId() + "/";
     		String sRecordingPath = "/opt/www/data/pd-webapps.uta.edu/mobile/recordings/"+ newMsg.getIncidentId()+"/";
@@ -208,6 +210,7 @@ public class CampusConnectAndroidController {
 	public String loginAndroid(	@RequestParam("netid") String netid_in,
 								@RequestParam("password") String pass_in,
 								@RequestParam("version") String version_in) {
+		System.out.println(netid_in);
 		return new CampusConnectAndroidHelper(servletContext).loginAndroid(netid_in,pass_in,version_in);
 	}
 	

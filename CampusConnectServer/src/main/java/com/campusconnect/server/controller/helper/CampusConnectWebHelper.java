@@ -1,6 +1,9 @@
 package com.campusconnect.server.controller.helper;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,10 +34,11 @@ import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
 public class CampusConnectWebHelper {
-	private static final String API_KEY = "AIzaSyDUN5NIUQ-UFED72d-PAahn2utN-GneJo4";
+	private static final String API_KEY = "AIzaSyD9Iciki8Kgx1vgQXtfrGcSQK14vAsDlTk";
 	private static final Logger logger = Logger.getLogger(CampusConnectWebHelper.class);
 	private Model model;
 	private ServletContext servletContext;
+
 	
 	public CampusConnectWebHelper(Model uiModel, ServletContext sc) {
 		model = uiModel;
@@ -113,7 +117,8 @@ public class CampusConnectWebHelper {
     	try {
     		payload.addAlert(alertTitle);
     		payload.addCustomDictionary("msgID",Integer.toString(iMsgID));
-			notifications = Push.payload(payload, "/opt/www/data/pd-webapps.uta.edu/mobile/key/keystore.p12", "crewman123", false, devices);
+ 
+			notifications = Push.payload(payload, servletContext.getResourceAsStream("/WEB-INF/keys/keystore.p12"), "crewman123", false, devices);
 		} catch (CommunicationException e) {
 			e.printStackTrace();
 		} catch (KeystoreException e) {

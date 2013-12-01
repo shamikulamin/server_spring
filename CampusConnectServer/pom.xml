@@ -19,6 +19,23 @@
 		    <url>https://github.com/slorber/gcm-server-repository/raw/master/releases/</url>
 		</repository>
 	</repositories>
+	
+<!--	<build>
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-war-plugin</artifactId>
+	        <version>2.4</version>
+	        <configuration>
+	            <webResources>
+	                <resource>
+	                    
+	                </resource>
+	            </webResources>
+	        </configuration>
+	    </plugin>
+	</build> -->
+	
+	
 	<dependencies>
 	    <!-- Decoding MP4 from Android -->
 	    <dependency>
